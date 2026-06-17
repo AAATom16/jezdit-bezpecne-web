@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Self-contained server bundle for Docker (.next/standalone/server.js).
+  // Used by the nethost VPS deploy; harmless on Railway/Vercel.
+  output: "standalone",
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,

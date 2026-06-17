@@ -1,6 +1,7 @@
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { AppQr } from "@/components/marketing/AppQr";
 import { APP_LINKS } from "@/lib/links";
 
 export function DownloadCTA({
@@ -48,7 +49,7 @@ export function DownloadCTA({
             <div
               className={`rounded-xl p-4 ${dark ? "bg-white" : "bg-white shadow-soft"}`}
             >
-              <QrPlaceholder />
+              <AppQr className="h-32 w-32" />
               <p className="mt-2 text-center text-xs font-medium text-slate-700">
                 Naskenuj a stáhni
               </p>
@@ -57,41 +58,5 @@ export function DownloadCTA({
         )}
       </Container>
     </section>
-  );
-}
-
-function QrPlaceholder() {
-  const cells: number[] = [];
-  for (let i = 0; i < 169; i++) cells.push(i);
-  return (
-    <svg
-      viewBox="0 0 130 130"
-      className="h-32 w-32"
-      role="img"
-      aria-label="QR kód pro stažení aplikace"
-    >
-      <rect width="130" height="130" fill="white" />
-      {cells.map((i) => {
-        const r = Math.floor(i / 13);
-        const c = i % 13;
-        const isCorner =
-          (r < 3 && c < 3) || (r < 3 && c > 9) || (r > 9 && c < 3);
-        const fill = isCorner || (r * c) % 3 === 0 || (r + c) % 5 === 0;
-        if (!fill) return null;
-        return (
-          <rect
-            key={i}
-            x={c * 10 + 1}
-            y={r * 10 + 1}
-            width={9}
-            height={9}
-            fill="#0f172a"
-          />
-        );
-      })}
-      <rect x="10" y="10" width="30" height="30" fill="none" stroke="#0f172a" strokeWidth="6" />
-      <rect x="90" y="10" width="30" height="30" fill="none" stroke="#0f172a" strokeWidth="6" />
-      <rect x="10" y="90" width="30" height="30" fill="none" stroke="#0f172a" strokeWidth="6" />
-    </svg>
   );
 }

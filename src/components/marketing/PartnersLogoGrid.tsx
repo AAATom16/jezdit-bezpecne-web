@@ -4,7 +4,7 @@ import { PARTNERS } from "@/content/partners";
 
 export function PartnersLogoGrid({ voteCTA = true }: { voteCTA?: boolean }) {
   return (
-    <section className="bg-slate-50 py-20">
+    <section id="partneri" className="scroll-mt-24 bg-slate-50 py-20">
       <Container>
         <div className="text-center max-w-2xl mx-auto">
           <p className="text-sm font-semibold uppercase tracking-wide text-brand-600">
@@ -17,11 +17,13 @@ export function PartnersLogoGrid({ voteCTA = true }: { voteCTA?: boolean }) {
 
         <ul className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
           {PARTNERS.map((p) => (
-            <li
-              key={p.name}
-              className="grid h-20 place-items-center rounded-lg border border-slate-200 bg-white px-4 text-center text-sm font-semibold text-slate-700 transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-soft"
-            >
-              {p.name}
+            <li key={p.name}>
+              <Link
+                href={`/partner/${p.slug}`}
+                className="grid h-20 place-items-center rounded-lg border border-slate-200 bg-white px-4 text-center text-sm font-semibold text-slate-700 transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-soft"
+              >
+                {p.name}
+              </Link>
             </li>
           ))}
         </ul>
