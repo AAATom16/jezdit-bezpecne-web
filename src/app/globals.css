@@ -10,13 +10,13 @@
   --border: #e2e8f0;
   --surface: #f8fafc;
 
-  --brand-50: #eaf6f7;
-  --brand-500: #2d9eaa;
-  --brand-600: #247f89;
-  --brand-700: #1d6770;
-  --accent-500: #ffc857;
-  --navy-500: #1f3a4a;
-  --cream-100: #fff7e6;
+  --brand-50: #e6f6f5;
+  --brand-500: #00a79d;
+  --brand-600: #00897f;
+  --brand-700: #006d65;
+  --accent-500: #6d8fae;
+  --navy-500: #0b1d3a;
+  --cream-100: #f2f5f7;
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -72,7 +72,7 @@ body {
     text-wrap: pretty;
   }
   .gradient-text {
-    background: linear-gradient(135deg, #1d6770 0%, #2d9eaa 60%, #4db2ba 100%);
+    background: linear-gradient(135deg, #006d65 0%, #00a79d 60%, #33b5ac 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;

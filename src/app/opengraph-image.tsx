@@ -17,7 +17,7 @@ export default function OG() {
           justifyContent: "space-between",
           padding: 80,
           background:
-            "linear-gradient(135deg, #1F3A4A 0%, #2D9EAA 65%, #4DB2BA 100%)",
+            "linear-gradient(135deg, #0B1D3A 0%, #00A79D 65%, #33B5AC 100%)",
           color: "white",
           fontFamily: "system-ui, sans-serif",
         }}
@@ -28,13 +28,13 @@ export default function OG() {
               width: 56,
               height: 56,
               borderRadius: 16,
-              background: "#FFC857",
+              background: "#F2F5F7",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontSize: 32,
               fontWeight: 800,
-              color: "#1F3A4A",
+              color: "#00A79D",
             }}
           >
             ✓
