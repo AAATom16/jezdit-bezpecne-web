@@ -10,10 +10,13 @@
   --border: #e2e8f0;
   --surface: #f8fafc;
 
-  --brand-50: #ecfdf5;
-  --brand-500: #10b981;
-  --brand-600: #059669;
-  --brand-700: #047857;
+  --brand-50: #eaf6f7;
+  --brand-500: #2d9eaa;
+  --brand-600: #247f89;
+  --brand-700: #1d6770;
+  --accent-500: #ffc857;
+  --navy-500: #1f3a4a;
+  --cream-100: #fff7e6;
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -69,7 +72,7 @@ body {
     text-wrap: pretty;
   }
   .gradient-text {
-    background: linear-gradient(135deg, #059669 0%, #10b981 60%, #34d399 100%);
+    background: linear-gradient(135deg, #1d6770 0%, #2d9eaa 60%, #4db2ba 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;

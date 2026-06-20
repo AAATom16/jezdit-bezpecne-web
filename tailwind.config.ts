@@ -20,18 +20,38 @@ const config: Config = {
         muted: { DEFAULT: "var(--muted)", foreground: "var(--muted-foreground)" },
         border: "var(--border)",
         surface: "var(--surface)",
+        // Perqo brand — teal primary. Tints/shades derived from #2D9EAA.
         brand: {
-          50: "#ECFDF5",
-          100: "#D1FAE5",
-          200: "#A7F3D0",
-          300: "#6EE7B7",
-          400: "#34D399",
-          500: "#10B981",
-          600: "#059669",
-          700: "#047857",
-          800: "#065F46",
-          900: "#064E3B",
+          50: "#EAF6F7",
+          100: "#CDEAEC",
+          200: "#A6DBDE",
+          300: "#74C5CB",
+          400: "#4DB2BA",
+          500: "#2D9EAA",
+          600: "#247F89",
+          700: "#1D6770",
+          800: "#1F4E55",
+          900: "#1F3A4A",
         },
+        // Perqo accent — warm yellow / gold.
+        accent: {
+          50: "#FFF7E6",
+          100: "#FFEFC2",
+          200: "#FFE299",
+          300: "#FFD470",
+          400: "#FFCB62",
+          500: "#FFC857",
+          600: "#E6AC3A",
+          700: "#B8862A",
+        },
+        // Perqo ink — navy used for headings / header text.
+        navy: {
+          DEFAULT: "#1F3A4A",
+          500: "#1F3A4A",
+          700: "#162935",
+        },
+        // Perqo surface — cream.
+        cream: { DEFAULT: "#FFF7E6", 50: "#FFFBF2", 100: "#FFF7E6" },
         charity: { 100: "#FCE7F3", 500: "#EC4899", 700: "#BE185D" },
         warn: { 100: "#FEF3C7", 500: "#F59E0B", 700: "#B45309" },
         danger: { 100: "#FEE2E2", 500: "#EF4444", 700: "#B91C1C" },
@@ -49,8 +69,8 @@ const config: Config = {
       },
       boxShadow: {
         soft: "0 4px 12px -2px rgba(15, 23, 42, 0.08)",
-        lift: "0 10px 30px -10px rgba(16, 185, 129, 0.35)",
-        focus: "0 0 0 4px rgba(16, 185, 129, 0.2)",
+        lift: "0 10px 30px -10px rgba(45, 158, 170, 0.35)",
+        focus: "0 0 0 4px rgba(45, 158, 170, 0.2)",
       },
       transitionDuration: {
         quick: "150ms",
@@ -65,9 +85,9 @@ const config: Config = {
         bounce: "cubic-bezier(0.34, 1.56, 0.64, 1)",
       },
       backgroundImage: {
-        "brand-gradient": "linear-gradient(135deg, #10B981 0%, #34D399 50%, #6EE7B7 100%)",
+        "brand-gradient": "linear-gradient(135deg, #2D9EAA 0%, #4DB2BA 50%, #74C5CB 100%)",
         "hero-radial":
-          "radial-gradient(ellipse at top right, rgba(16,185,129,0.15), transparent 60%)",
+          "radial-gradient(ellipse at top right, rgba(45,158,170,0.15), transparent 60%)",
       },
       keyframes: {
         "fade-in": {

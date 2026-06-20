@@ -25,7 +25,7 @@ export function generateMetadata({
   return {
     title: `${p.name} — sleva za bezpečnou jízdu`,
     description: p.card?.description?.slice(0, 155) ??
-      `Uplatni body z programu Jezdit bezpečně u partnera ${p.name}.`,
+      `Uplatni body z aplikace Perqo u partnera ${p.name}.`,
     alternates: { canonical: `/partner/${p.slug}` },
   };
 }

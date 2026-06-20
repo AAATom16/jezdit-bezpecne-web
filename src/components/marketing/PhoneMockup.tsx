@@ -3,18 +3,18 @@ export function PhoneMockup() {
     <div className="relative" aria-hidden="true">
       <svg
         viewBox="0 0 280 560"
-        className="h-[480px] w-auto drop-shadow-[0_30px_60px_rgba(16,185,129,0.25)]"
+        className="h-[480px] w-auto drop-shadow-[0_30px_60px_rgba(45,158,170,0.25)]"
         role="img"
-        aria-label="Náhled aplikace Jezdit bezpečně"
+        aria-label="Náhled aplikace Perqo"
       >
         <defs>
           <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#ECFDF5" />
-            <stop offset="1" stopColor="#D1FAE5" />
+            <stop offset="0" stopColor="#FFF7E6" />
+            <stop offset="1" stopColor="#EAF6F7" />
           </linearGradient>
           <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#10B981" />
-            <stop offset="1" stopColor="#34D399" />
+            <stop offset="0" stopColor="#2D9EAA" />
+            <stop offset="1" stopColor="#4DB2BA" />
           </linearGradient>
         </defs>
         <rect x="6" y="6" width="268" height="548" rx="42" fill="#0f172a" />
@@ -41,7 +41,7 @@ export function PhoneMockup() {
           strokeDashoffset="60"
           transform="rotate(-90 140 200)"
         />
-        <text x="140" y="195" textAnchor="middle" fill="#047857" fontSize="36" fontWeight="800" fontFamily="system-ui">
+        <text x="140" y="195" textAnchor="middle" fill="#1F3A4A" fontSize="36" fontWeight="800" fontFamily="system-ui">
           92
         </text>
         <text x="140" y="218" textAnchor="middle" fill="#64748b" fontSize="11" fontFamily="system-ui">
@@ -49,14 +49,14 @@ export function PhoneMockup() {
         </text>
 
         <rect x="32" y="300" width="216" height="64" rx="14" fill="white" stroke="#E2E8F0" />
-        <circle cx="60" cy="332" r="14" fill="#ECFDF5" />
+        <circle cx="60" cy="332" r="14" fill="#EAF6F7" />
         <text x="86" y="328" fill="#0f172a" fontSize="13" fontWeight="600" fontFamily="system-ui">
           Sleva u Shellu
         </text>
         <text x="86" y="346" fill="#64748b" fontSize="11" fontFamily="system-ui">
           −7 % na palivo · platí 7 dní
         </text>
-        <text x="232" y="338" textAnchor="end" fill="#10B981" fontSize="14" fontWeight="700" fontFamily="system-ui">
+        <text x="232" y="338" textAnchor="end" fill="#2D9EAA" fontSize="14" fontWeight="700" fontFamily="system-ui">
           ⟶
         </text>
 
@@ -69,7 +69,7 @@ export function PhoneMockup() {
           12 Kč → Linka bezpečí
         </text>
 
-        <rect x="32" y="466" width="216" height="50" rx="25" fill="#10B981" />
+        <rect x="32" y="466" width="216" height="50" rx="25" fill="#2D9EAA" />
         <text x="140" y="497" textAnchor="middle" fill="white" fontSize="14" fontWeight="700" fontFamily="system-ui">
           Vybrat odměnu
         </text>

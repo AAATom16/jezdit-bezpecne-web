@@ -5,7 +5,7 @@ import { PartnerSignupForm } from "@/components/forms/PartnerSignupForm";
 export const metadata: Metadata = {
   title: "Registrace partnera",
   description:
-    "Vyplň formulář a staň se partnerem aplikace Jezdit bezpečně. 4 jednoduché kroky, schválení do 48 h.",
+    "Vyplň formulář a staň se partnerem aplikace Perqo. 4 jednoduché kroky, schválení do 48 h.",
   alternates: { canonical: "/pro-partnery/registrace" },
   robots: { index: false, follow: true },
 };

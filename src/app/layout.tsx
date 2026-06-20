@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import { SITE_NAME, SITE_URL } from "@/lib/links";
+import { PROGRAM_TAGLINE, SITE_NAME, SITE_URL } from "@/lib/links";
 import "./globals.css";
 
 const inter = Inter({
@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#10B981",
+  themeColor: "#2D9EAA",
   width: "device-width",
   initialScale: 1,
 };
@@ -18,7 +18,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: SITE_NAME,
+    default: `${SITE_NAME} — ${PROGRAM_TAGLINE}`,
     template: `%s | ${SITE_NAME}`,
   },
   description:

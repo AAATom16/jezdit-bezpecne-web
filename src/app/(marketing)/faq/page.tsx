@@ -5,7 +5,7 @@ import { FAQ } from "@/content/faq";
 export const metadata: Metadata = {
   title: "Časté otázky",
   description:
-    "Odpovědi na nejčastější otázky o aplikaci Jezdit bezpečně — soukromí, baterie, slevy.",
+    "Odpovědi na nejčastější otázky o aplikaci Perqo — soukromí, baterie, slevy.",
   alternates: { canonical: "/faq" },
 };
 

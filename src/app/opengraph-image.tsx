@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Jezdit bezpečně se vyplatí";
+export const alt = "Perqo — Jezdit bezpečně se vyplatí";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -17,7 +17,7 @@ export default function OG() {
           justifyContent: "space-between",
           padding: 80,
           background:
-            "linear-gradient(135deg, #047857 0%, #10B981 60%, #6EE7B7 100%)",
+            "linear-gradient(135deg, #1F3A4A 0%, #2D9EAA 65%, #4DB2BA 100%)",
           color: "white",
           fontFamily: "system-ui, sans-serif",
         }}
@@ -27,17 +27,19 @@ export default function OG() {
             style={{
               width: 56,
               height: 56,
-              borderRadius: 14,
-              background: "rgba(255,255,255,0.2)",
+              borderRadius: 16,
+              background: "#FFC857",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 30,
+              fontSize: 32,
+              fontWeight: 800,
+              color: "#1F3A4A",
             }}
           >
-            🛡
+            ✓
           </div>
-          <span style={{ fontSize: 28, fontWeight: 600 }}>Jezdit bezpečně</span>
+          <span style={{ fontSize: 30, fontWeight: 800 }}>Perqo</span>
         </div>
 
         <div>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { Logo } from "@/components/layout/Logo";
 import { Container } from "./Container";
 import { MAIN_NAV } from "@/content/nav";
 import { APP_LINKS } from "@/lib/links";
@@ -15,15 +16,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/60 bg-white/80 backdrop-blur-md">
       <Container className="flex h-16 items-center justify-between">
-        <Link
-          href="/"
-          className="flex items-center gap-2 font-bold text-lg"
-          aria-label="Jezdit bezpečně — domů"
-        >
-          <span className="grid h-9 w-9 place-items-center rounded-md bg-brand-gradient text-white">
-            <Icon name="shield" size={20} />
-          </span>
-          <span className="hidden sm:inline">Jezdit bezpečně</span>
+        <Link href="/" aria-label="Perqo — domů">
+          <Logo />
         </Link>
 
         <nav

@@ -8,7 +8,7 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden bg-hero-radial">
       <div
-        className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,rgba(110,231,183,0.18),transparent_50%)]"
+        className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,rgba(116,197,203,0.18),transparent_50%)]"
         aria-hidden="true"
       />
       <Container className="grid gap-12 py-16 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:py-24">
@@ -22,7 +22,7 @@ export function Hero() {
           </span>
 
           <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-            Jezdit bezpečně{" "}
+            Bezpečná jízda{" "}
             <span className="gradient-text">se vyplatí.</span>
           </h1>
 

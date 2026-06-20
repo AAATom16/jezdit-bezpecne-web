@@ -3,7 +3,7 @@ import { CONTACT_EMAIL, PARTNER_EMAIL } from "@/lib/links";
 
 export const metadata: Metadata = {
   title: "Kontakt",
-  description: "Spojení na tým Jezdit bezpečně — pro uživatele, partnery i média.",
+  description: "Spojení na tým Perqo — pro uživatele, partnery i média.",
   alternates: { canonical: "/kontakt" },
 };
 

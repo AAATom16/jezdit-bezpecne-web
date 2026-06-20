@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Container } from "./Container";
-import { Icon } from "@/components/ui/Icon";
+import { Logo } from "@/components/layout/Logo";
 import { FOOTER_NAV } from "@/content/nav";
 import { CONTACT_EMAIL } from "@/lib/links";
 
@@ -10,12 +10,12 @@ export function Footer() {
     <footer className="mt-24 border-t border-slate-200 bg-slate-50">
       <Container className="grid gap-10 py-14 md:grid-cols-4">
         <div>
-          <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-            <span className="grid h-9 w-9 place-items-center rounded-md bg-brand-gradient text-white">
-              <Icon name="shield" size={20} />
-            </span>
-            Jezdit bezpečně
+          <Link href="/" aria-label="Perqo — domů">
+            <Logo />
           </Link>
+          <p className="mt-1 text-sm font-medium text-brand-700">
+            Jezdit bezpečně se vyplatí.
+          </p>
           <p className="mt-3 text-sm text-slate-600 max-w-xs">
             Aplikace, která mění bezpečnou jízdu na slevy. A část odměn jde na charitu.
           </p>
@@ -27,7 +27,7 @@ export function Footer() {
       </Container>
 
       <Container className="border-t border-slate-200 py-6 flex flex-col md:flex-row gap-3 md:items-center md:justify-between text-sm text-slate-600">
-        <p>© {year} Jezdit bezpečně. Vyrobeno v Česku.</p>
+        <p>© {year} Perqo. Vyrobeno v Česku.</p>
         <p>
           <a className="hover:text-brand-700" href={`mailto:${CONTACT_EMAIL}`}>
             {CONTACT_EMAIL}
