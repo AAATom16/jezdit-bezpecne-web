@@ -17,6 +17,9 @@ export function Logo({ className }: LogoProps) {
     <img
       src="/perqo-logo.png"
       alt="Perqo"
+      width={112}
+      height={36}
+      fetchPriority="high"
       className={cn("w-auto h-9", className)}
     />
   );

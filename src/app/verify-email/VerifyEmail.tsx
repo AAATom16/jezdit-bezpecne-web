@@ -48,30 +48,28 @@ export function VerifyEmail() {
 
   const card = "w-full max-w-md rounded-2xl bg-white p-8 shadow-soft text-center";
 
-  if (status === "loading") {
-    return (
-      <div className={card}>
-        <h1 className="text-2xl font-bold text-foreground">Ověřuji e-mail…</h1>
-        <p className="mt-3 text-slate-600">Okamžik prosím.</p>
-      </div>
-    );
-  }
-
-  if (status === "done") {
-    return (
-      <div className={card}>
-        <h1 className="text-2xl font-bold text-foreground">E-mail ověřen ✅</h1>
-        <p className="mt-3 text-slate-600">
-          Hotovo! Vrať se do aplikace — účet je ověřený a můžeš se přihlásit.
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <div className={card}>
-      <h1 className="text-2xl font-bold text-foreground">Ověření se nezdařilo</h1>
-      <p className="mt-3 text-slate-600">{error}</p>
+    <div className={card} role="status" aria-live="polite">
+      {status === "loading" && (
+        <>
+          <h1 className="text-2xl font-bold text-foreground">Ověřuji e-mail…</h1>
+          <p className="mt-3 text-slate-600">Okamžik prosím.</p>
+        </>
+      )}
+      {status === "done" && (
+        <>
+          <h1 className="text-2xl font-bold text-foreground">E-mail ověřen ✅</h1>
+          <p className="mt-3 text-slate-600">
+            Hotovo! Vrať se do aplikace — účet je ověřený a můžeš se přihlásit.
+          </p>
+        </>
+      )}
+      {status === "error" && (
+        <>
+          <h1 className="text-2xl font-bold text-foreground">Ověření se nezdařilo</h1>
+          <p className="mt-3 text-slate-600">{error}</p>
+        </>
+      )}
     </div>
   );
 }

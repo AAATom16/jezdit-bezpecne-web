@@ -26,7 +26,7 @@ export function StepsGrid({
           {steps.map((s) => (
             <li
               key={s.num}
-              className="group relative rounded-xl border border-slate-200 bg-white p-7 shadow-soft transition-all hover:-translate-y-1 hover:border-brand-300 hover:shadow-lift"
+              className="group relative rounded-xl border border-slate-200 bg-white p-7 shadow-soft transition-[transform,box-shadow,border-color] duration-DEFAULT ease-out motion-reduce:transition-none hover:-translate-y-1 hover:border-brand-300 hover:shadow-lift"
             >
               <span className="grid h-12 w-12 place-items-center rounded-lg bg-brand-gradient text-lg font-bold text-white">
                 {s.num}

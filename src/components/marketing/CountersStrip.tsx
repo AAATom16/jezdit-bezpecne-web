@@ -65,7 +65,7 @@ function Counter({
 
   return (
     <div ref={ref} className="text-center">
-      <div className="text-3xl font-extrabold text-brand-700 sm:text-4xl">
+      <div className="text-3xl font-extrabold tabular-nums text-brand-700 sm:text-4xl">
         {formatNumber(val)}
         {suffix}
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 
 const MIN_LEN = 10;
@@ -19,6 +19,7 @@ export function ResetPasswordForm() {
   const [confirm, setConfirm] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "done">("idle");
   const [error, setError] = useState<string | null>(null);
+  const errorRef = useRef<HTMLParagraphElement>(null);
 
   const card = "w-full max-w-md rounded-2xl bg-white p-8 shadow-soft";
 
@@ -45,15 +46,20 @@ export function ResetPasswordForm() {
     );
   }
 
+  function fail(message: string) {
+    setError(message);
+    requestAnimationFrame(() => errorRef.current?.focus());
+  }
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     if (password.length < MIN_LEN) {
-      setError(ERRORS["invalid-input"]);
+      fail(ERRORS["invalid-input"]);
       return;
     }
     if (password !== confirm) {
-      setError("Hesla se neshodují.");
+      fail("Hesla se neshodují.");
       return;
     }
     setStatus("submitting");
@@ -68,16 +74,17 @@ export function ResetPasswordForm() {
         setStatus("done");
         return;
       }
-      setError(ERRORS[data.error ?? ""] ?? ERRORS.upstream);
+      fail(ERRORS[data.error ?? ""] ?? ERRORS.upstream);
       setStatus("idle");
     } catch {
-      setError(ERRORS.network);
+      fail(ERRORS.network);
       setStatus("idle");
     }
   }
 
   const input =
-    "w-full rounded-xl border border-slate-300 px-4 py-3 text-foreground outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30";
+    "w-full rounded-xl border border-slate-300 px-4 py-3 text-foreground outline-none focus-visible:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500/30";
+  const describedBy = error ? "pw-error" : undefined;
 
   return (
     <form onSubmit={onSubmit} className={card}>
@@ -89,6 +96,7 @@ export function ResetPasswordForm() {
       </label>
       <input
         id="pw"
+        name="new-password"
         type="password"
         autoComplete="new-password"
         className={`${input} mt-1`}
@@ -96,6 +104,8 @@ export function ResetPasswordForm() {
         onChange={(e) => setPassword(e.target.value)}
         minLength={MIN_LEN}
         required
+        aria-invalid={!!error}
+        aria-describedby={describedBy}
       />
 
       <label className="mt-4 block text-sm font-medium text-slate-700" htmlFor="pw2">
@@ -103,6 +113,7 @@ export function ResetPasswordForm() {
       </label>
       <input
         id="pw2"
+        name="confirm-password"
         type="password"
         autoComplete="new-password"
         className={`${input} mt-1`}
@@ -110,9 +121,21 @@ export function ResetPasswordForm() {
         onChange={(e) => setConfirm(e.target.value)}
         minLength={MIN_LEN}
         required
+        aria-invalid={!!error}
+        aria-describedby={describedBy}
       />
 
-      {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
+      {error && (
+        <p
+          id="pw-error"
+          ref={errorRef}
+          role="alert"
+          tabIndex={-1}
+          className="mt-4 text-sm text-red-600 outline-none"
+        >
+          {error}
+        </p>
+      )}
 
       <Button type="submit" size="lg" className="mt-6 w-full" disabled={status === "submitting"}>
         {status === "submitting" ? "Ukládám…" : "Nastavit heslo"}

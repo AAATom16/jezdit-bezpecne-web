@@ -38,7 +38,7 @@ export function CharitySection() {
           {CHARITIES.map((c) => (
             <li
               key={c.name}
-              className="flex flex-col rounded-xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-1 hover:shadow-soft"
+              className="flex flex-col rounded-xl border border-slate-200 bg-white p-6 transition-[transform,box-shadow] duration-DEFAULT ease-out motion-reduce:transition-none hover:-translate-y-1 hover:shadow-soft"
             >
               <div
                 className={`grid h-12 w-12 place-items-center rounded-lg ring-1 ${COLOR_MAP[c.color]}`}

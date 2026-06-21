@@ -58,9 +58,12 @@ export function Header() {
 
       <div
         id="mobile-menu"
+        aria-hidden={!open}
         className={cn(
-          "md:hidden overflow-hidden transition-all duration-DEFAULT",
-          open ? "max-h-96 border-t border-slate-200" : "max-h-0"
+          "md:hidden origin-top overflow-hidden border-t border-slate-200 transition-[transform,opacity] duration-DEFAULT ease-out motion-reduce:transition-none",
+          open
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none invisible -translate-y-2 opacity-0"
         )}
       >
         <Container className="flex flex-col gap-1 py-4">

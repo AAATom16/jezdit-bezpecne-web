@@ -1,10 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
 import { z } from "zod";
+
+type FieldEl = HTMLInputElement | HTMLSelectElement;
+
+// Order in which fields are focused when a step fails validation.
+const STEP_FIELD_ORDER: Record<number, string[]> = {
+  1: ["ic", "name", "legalForm", "address"],
+  2: ["firstName", "lastName", "email", "phone"],
+  3: ["category", "proposedDiscountPct", "minPurchase"],
+  4: ["gdprAccepted", "tosAccepted"],
+};
+
+// Step-specific label for the "next" button (avoid generic "Pokračovat").
+const NEXT_LABEL: Record<number, string> = {
+  1: "Pokračovat na kontakt",
+  2: "Pokračovat na nabídku",
+  3: "Pokračovat na souhrn",
+};
 
 const STEPS = [
   { id: 1, label: "O firmě" },
@@ -62,6 +79,20 @@ export function PartnerSignupForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  const fieldRefs = useRef<Record<string, FieldEl | null>>({});
+
+  function registerField(key: string) {
+    return (el: FieldEl | null) => {
+      fieldRefs.current[key] = el;
+    };
+  }
+
+  function focusFirstError(map: Record<string, string>) {
+    const order = STEP_FIELD_ORDER[step] ?? [];
+    const firstKey = order.find((k) => map[k]);
+    if (!firstKey) return;
+    requestAnimationFrame(() => fieldRefs.current[firstKey]?.focus());
+  }
 
   useEffect(() => {
     try {
@@ -108,6 +139,7 @@ export function PartnerSignupForm() {
         if (k && !map[k]) map[k] = i.message;
       });
       setErrors(map);
+      focusFirstError(map);
       return false;
     }
     return true;
@@ -159,11 +191,15 @@ export function PartnerSignupForm() {
           <fieldset className="space-y-5">
             <legend className="text-xl font-semibold">O firmě</legend>
             <Field
-              label="IČ"
+              id="ico"
+              label="IČO"
               error={errors.ic}
               input={
                 <input
+                  ref={registerField("ic")}
+                  name="ico"
                   inputMode="numeric"
+                  spellCheck={false}
                   maxLength={8}
                   className={inputCls(!!errors.ic)}
                   value={data.step1.ic ?? ""}
@@ -171,30 +207,39 @@ export function PartnerSignupForm() {
                     setData((d) => ({ ...d, step1: { ...d.step1, ic: e.target.value.replace(/\D/g, "") } }))
                   }
                   aria-invalid={!!errors.ic}
-                  aria-describedby={errors.ic ? "err-ic" : undefined}
+                  aria-describedby={errors.ic ? "err-ico" : undefined}
                 />
               }
             />
             <Field
+              id="name"
               label="Název firmy"
               error={errors.name}
               input={
                 <input
+                  ref={registerField("name")}
+                  name="organization"
+                  autoComplete="organization"
                   className={inputCls(!!errors.name)}
                   value={data.step1.name ?? ""}
                   onChange={(e) =>
                     setData((d) => ({ ...d, step1: { ...d.step1, name: e.target.value } }))
                   }
                   aria-invalid={!!errors.name}
+                  aria-describedby={errors.name ? "err-name" : undefined}
                 />
               }
             />
             <Field
+              id="legalForm"
               label="Právní forma"
               error={errors.legalForm}
               input={
                 <select
+                  ref={registerField("legalForm")}
+                  name="legalForm"
                   className={inputCls(!!errors.legalForm)}
+                  style={{ backgroundColor: "#ffffff", color: "#0f172a" }}
                   value={data.step1.legalForm ?? "s.r.o."}
                   onChange={(e) =>
                     setData((d) => ({
@@ -202,6 +247,8 @@ export function PartnerSignupForm() {
                       step1: { ...d.step1, legalForm: e.target.value as never },
                     }))
                   }
+                  aria-invalid={!!errors.legalForm}
+                  aria-describedby={errors.legalForm ? "err-legalForm" : undefined}
                 >
                   <option>s.r.o.</option>
                   <option>a.s.</option>
@@ -211,15 +258,21 @@ export function PartnerSignupForm() {
               }
             />
             <Field
+              id="address"
               label="Adresa sídla"
               error={errors.address}
               input={
                 <input
+                  ref={registerField("address")}
+                  name="street-address"
+                  autoComplete="street-address"
                   className={inputCls(!!errors.address)}
                   value={data.step1.address ?? ""}
                   onChange={(e) =>
                     setData((d) => ({ ...d, step1: { ...d.step1, address: e.target.value } }))
                   }
+                  aria-invalid={!!errors.address}
+                  aria-describedby={errors.address ? "err-address" : undefined}
                 />
               }
             />
@@ -231,57 +284,84 @@ export function PartnerSignupForm() {
             <legend className="text-xl font-semibold">Kontaktní osoba</legend>
             <div className="grid gap-5 sm:grid-cols-2">
               <Field
+                id="firstName"
                 label="Jméno"
                 error={errors.firstName}
                 input={
                   <input
+                    ref={registerField("firstName")}
+                    name="given-name"
+                    autoComplete="given-name"
                     className={inputCls(!!errors.firstName)}
                     value={data.step2.firstName ?? ""}
                     onChange={(e) =>
                       setData((d) => ({ ...d, step2: { ...d.step2, firstName: e.target.value } }))
                     }
+                    aria-invalid={!!errors.firstName}
+                    aria-describedby={errors.firstName ? "err-firstName" : undefined}
                   />
                 }
               />
               <Field
+                id="lastName"
                 label="Příjmení"
                 error={errors.lastName}
                 input={
                   <input
+                    ref={registerField("lastName")}
+                    name="family-name"
+                    autoComplete="family-name"
                     className={inputCls(!!errors.lastName)}
                     value={data.step2.lastName ?? ""}
                     onChange={(e) =>
                       setData((d) => ({ ...d, step2: { ...d.step2, lastName: e.target.value } }))
                     }
+                    aria-invalid={!!errors.lastName}
+                    aria-describedby={errors.lastName ? "err-lastName" : undefined}
                   />
                 }
               />
             </div>
             <Field
+              id="email"
               label="E-mail"
               error={errors.email}
               input={
                 <input
+                  ref={registerField("email")}
+                  name="email"
                   type="email"
+                  autoComplete="email"
+                  inputMode="email"
+                  spellCheck={false}
                   className={inputCls(!!errors.email)}
                   value={data.step2.email ?? ""}
                   onChange={(e) =>
                     setData((d) => ({ ...d, step2: { ...d.step2, email: e.target.value } }))
                   }
+                  aria-invalid={!!errors.email}
+                  aria-describedby={errors.email ? "err-email" : undefined}
                 />
               }
             />
             <Field
+              id="phone"
               label="Telefon"
               error={errors.phone}
               input={
                 <input
+                  ref={registerField("phone")}
+                  name="tel"
                   type="tel"
+                  autoComplete="tel"
+                  inputMode="tel"
                   className={inputCls(!!errors.phone)}
                   value={data.step2.phone ?? ""}
                   onChange={(e) =>
                     setData((d) => ({ ...d, step2: { ...d.step2, phone: e.target.value } }))
                   }
+                  aria-invalid={!!errors.phone}
+                  aria-describedby={errors.phone ? "err-phone" : undefined}
                 />
               }
             />
@@ -292,11 +372,15 @@ export function PartnerSignupForm() {
           <fieldset className="space-y-5">
             <legend className="text-xl font-semibold">Tvá nabídka</legend>
             <Field
+              id="category"
               label="Kategorie"
               error={errors.category}
               input={
                 <select
+                  ref={registerField("category")}
+                  name="category"
                   className={inputCls(!!errors.category)}
+                  style={{ backgroundColor: "#ffffff", color: "#0f172a" }}
                   value={data.step3.category ?? "food"}
                   onChange={(e) =>
                     setData((d) => ({
@@ -304,6 +388,8 @@ export function PartnerSignupForm() {
                       step3: { ...d.step3, category: e.target.value as never },
                     }))
                   }
+                  aria-invalid={!!errors.category}
+                  aria-describedby={errors.category ? "err-category" : undefined}
                 >
                   <option value="food">Potraviny</option>
                   <option value="fuel">Pohonné hmoty</option>
@@ -314,11 +400,15 @@ export function PartnerSignupForm() {
               }
             />
             <Field
+              id="proposedDiscountPct"
               label="Navržená sleva (%)"
               error={errors.proposedDiscountPct}
               input={
                 <input
+                  ref={registerField("proposedDiscountPct")}
+                  name="proposedDiscountPct"
                   type="number"
+                  inputMode="numeric"
                   min={1}
                   max={20}
                   className={inputCls(!!errors.proposedDiscountPct)}
@@ -329,15 +419,21 @@ export function PartnerSignupForm() {
                       step3: { ...d.step3, proposedDiscountPct: Number(e.target.value) },
                     }))
                   }
+                  aria-invalid={!!errors.proposedDiscountPct}
+                  aria-describedby={errors.proposedDiscountPct ? "err-proposedDiscountPct" : undefined}
                 />
               }
             />
             <Field
+              id="minPurchase"
               label="Min. nákup (Kč, 0 = bez limitu)"
               error={errors.minPurchase}
               input={
                 <input
+                  ref={registerField("minPurchase")}
+                  name="minPurchase"
                   type="number"
+                  inputMode="numeric"
                   min={0}
                   className={inputCls(!!errors.minPurchase)}
                   value={data.step3.minPurchase ?? 0}
@@ -347,6 +443,8 @@ export function PartnerSignupForm() {
                       step3: { ...d.step3, minPurchase: Number(e.target.value) },
                     }))
                   }
+                  aria-invalid={!!errors.minPurchase}
+                  aria-describedby={errors.minPurchase ? "err-minPurchase" : undefined}
                 />
               }
             />
@@ -391,7 +489,7 @@ export function PartnerSignupForm() {
           )}
           {step < 4 ? (
             <Button type="submit" variant="primary">
-              Pokračovat <Icon name="arrow-right" size={18} />
+              {NEXT_LABEL[step] ?? "Pokračovat"} <Icon name="arrow-right" size={18} />
             </Button>
           ) : (
             <Button type="submit" variant="primary" disabled={submitting}>
@@ -442,10 +540,12 @@ function Stepper({ current }: { current: number }) {
 }
 
 function Field({
+  id,
   label,
   error,
   input,
 }: {
+  id: string;
   label: string;
   error?: string;
   input: React.ReactNode;
@@ -457,7 +557,7 @@ function Field({
       </span>
       {input}
       {error && (
-        <p id={`err-${label}`} role="alert" className="mt-1.5 text-sm text-danger-700">
+        <p id={`err-${id}`} role="alert" className="mt-1.5 text-sm text-danger-700">
           {error}
         </p>
       )}
