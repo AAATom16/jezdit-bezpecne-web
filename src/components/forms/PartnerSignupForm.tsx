@@ -73,6 +73,14 @@ const EMPTY: FormState = {
   step4: {},
 };
 
+// ARES (Czech business registry) auto-fill — served via our /api/ares route.
+type AresSuggestion = {
+  ico: string;
+  name: string;
+  legalForm: "s.r.o." | "a.s." | "OSVČ" | "jiné";
+  address: string;
+};
+
 export function PartnerSignupForm() {
   const [step, setStep] = useState(1);
   const [data, setData] = useState<FormState>(EMPTY);
@@ -80,6 +88,26 @@ export function PartnerSignupForm() {
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const fieldRefs = useRef<Record<string, FieldEl | null>>({});
+  // ARES auto-fill state.
+  const [aresMsg, setAresMsg] = useState<string | null>(null);
+  const [suggest, setSuggest] = useState<AresSuggestion[]>([]);
+  const suppressSearch = useRef(false);
+
+  function applySubject(s: AresSuggestion) {
+    suppressSearch.current = true;
+    setData((d) => ({
+      ...d,
+      step1: {
+        ...d.step1,
+        ic: s.ico || d.step1.ic,
+        name: s.name || d.step1.name,
+        legalForm: (s.legalForm || d.step1.legalForm) as never,
+        address: s.address || d.step1.address,
+      },
+    }));
+    setSuggest([]);
+    setAresMsg("✓ Načteno z ARES");
+  }
 
   function registerField(key: string) {
     return (el: FieldEl | null) => {
@@ -121,6 +149,70 @@ export function PartnerSignupForm() {
       // ignore
     }
   }, [data, step, done]);
+
+  // IČO → ARES exact lookup (8 digits, debounced). Auto-fills name/form/address.
+  useEffect(() => {
+    const ic = (data.step1.ic ?? "").replace(/\D/g, "");
+    if (ic.length !== 8) {
+      setAresMsg(null);
+      return;
+    }
+    let cancelled = false;
+    setAresMsg("Načítám z ARES…");
+    const t = setTimeout(async () => {
+      try {
+        const r = await fetch(`/api/ares?ico=${ic}`);
+        if (cancelled) return;
+        if (r.status === 404) {
+          setAresMsg("IČO nenalezeno v ARES — vyplň údaje ručně.");
+          return;
+        }
+        if (!r.ok) {
+          setAresMsg(null);
+          return;
+        }
+        const { subject } = (await r.json()) as { subject?: AresSuggestion };
+        if (cancelled || !subject) return;
+        applySubject(subject);
+      } catch {
+        if (!cancelled) setAresMsg(null);
+      }
+    }, 400);
+    return () => {
+      cancelled = true;
+      clearTimeout(t);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data.step1.ic]);
+
+  // Název firmy → ARES fulltext search (debounced) → suggestions dropdown.
+  useEffect(() => {
+    if (suppressSearch.current) {
+      suppressSearch.current = false;
+      return;
+    }
+    const q = (data.step1.name ?? "").trim();
+    if (q.length < 2) {
+      setSuggest([]);
+      return;
+    }
+    let cancelled = false;
+    const t = setTimeout(async () => {
+      try {
+        const r = await fetch(`/api/ares?q=${encodeURIComponent(q)}`);
+        if (cancelled || !r.ok) return;
+        const { items } = (await r.json()) as { items?: AresSuggestion[] };
+        if (!cancelled) setSuggest(items ?? []);
+      } catch {
+        /* keep silent — manual entry still works */
+      }
+    }, 300);
+    return () => {
+      cancelled = true;
+      clearTimeout(t);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data.step1.name]);
 
   function validateStep(): boolean {
     setErrors({});
@@ -195,20 +287,33 @@ export function PartnerSignupForm() {
               label="IČO"
               error={errors.ic}
               input={
-                <input
-                  ref={registerField("ic")}
-                  name="ico"
-                  inputMode="numeric"
-                  spellCheck={false}
-                  maxLength={8}
-                  className={inputCls(!!errors.ic)}
-                  value={data.step1.ic ?? ""}
-                  onChange={(e) =>
-                    setData((d) => ({ ...d, step1: { ...d.step1, ic: e.target.value.replace(/\D/g, "") } }))
-                  }
-                  aria-invalid={!!errors.ic}
-                  aria-describedby={errors.ic ? "err-ico" : undefined}
-                />
+                <>
+                  <input
+                    ref={registerField("ic")}
+                    name="ico"
+                    inputMode="numeric"
+                    spellCheck={false}
+                    maxLength={8}
+                    placeholder="napiš IČO — údaje doplníme z ARES"
+                    className={inputCls(!!errors.ic)}
+                    value={data.step1.ic ?? ""}
+                    onChange={(e) =>
+                      setData((d) => ({ ...d, step1: { ...d.step1, ic: e.target.value.replace(/\D/g, "") } }))
+                    }
+                    aria-invalid={!!errors.ic}
+                    aria-describedby={errors.ic ? "err-ico" : undefined}
+                  />
+                  {aresMsg && (
+                    <p
+                      className={cn(
+                        "mt-1.5 text-sm",
+                        aresMsg.startsWith("✓") ? "text-brand-700" : "text-slate-500"
+                      )}
+                    >
+                      {aresMsg}
+                    </p>
+                  )}
+                </>
               }
             />
             <Field
@@ -216,18 +321,42 @@ export function PartnerSignupForm() {
               label="Název firmy"
               error={errors.name}
               input={
-                <input
-                  ref={registerField("name")}
-                  name="organization"
-                  autoComplete="organization"
-                  className={inputCls(!!errors.name)}
-                  value={data.step1.name ?? ""}
-                  onChange={(e) =>
-                    setData((d) => ({ ...d, step1: { ...d.step1, name: e.target.value } }))
-                  }
-                  aria-invalid={!!errors.name}
-                  aria-describedby={errors.name ? "err-name" : undefined}
-                />
+                <div className="relative">
+                  <input
+                    ref={registerField("name")}
+                    name="organization"
+                    autoComplete="off"
+                    placeholder="začni psát název — našeptáme z ARES"
+                    className={inputCls(!!errors.name)}
+                    value={data.step1.name ?? ""}
+                    onChange={(e) =>
+                      setData((d) => ({ ...d, step1: { ...d.step1, name: e.target.value } }))
+                    }
+                    onBlur={() => window.setTimeout(() => setSuggest([]), 200)}
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? "err-name" : undefined}
+                  />
+                  {suggest.length > 0 && (
+                    <ul className="absolute z-20 mt-1 max-h-64 w-full overflow-auto rounded-md border border-slate-200 bg-white py-1 shadow-lg">
+                      {suggest.map((s) => (
+                        <li key={s.ico}>
+                          <button
+                            type="button"
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => applySubject(s)}
+                            className="block w-full px-3.5 py-2 text-left hover:bg-slate-50"
+                          >
+                            <span className="block text-sm font-medium text-slate-900">{s.name}</span>
+                            <span className="block text-xs text-slate-500">
+                              IČO {s.ico}
+                              {s.address ? ` · ${s.address}` : ""}
+                            </span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               }
             />
             <Field
