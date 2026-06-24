@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/layout/Container";
+import { BrandMark } from "@/components/marketing/BrandMark";
 import { PARTNERS } from "@/content/partners";
 
 export function PartnersLogoGrid({ voteCTA = true }: { voteCTA?: boolean }) {
@@ -20,9 +21,10 @@ export function PartnersLogoGrid({ voteCTA = true }: { voteCTA?: boolean }) {
             <li key={p.name}>
               <Link
                 href={`/partner/${p.slug}`}
-                className="grid h-20 place-items-center rounded-lg border border-slate-200 bg-white px-4 text-center text-sm font-semibold text-slate-700 transition-[transform,box-shadow,border-color] duration-DEFAULT ease-out motion-reduce:transition-none hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-soft"
+                className="flex h-20 items-center justify-center gap-2.5 rounded-lg border border-slate-200 bg-white px-4 text-center text-sm font-semibold text-slate-700 transition-[transform,box-shadow,border-color] duration-DEFAULT ease-out motion-reduce:transition-none hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-soft"
               >
-                {p.name}
+                <BrandMark name={p.name} category={p.category} accent={p.accent} size={32} />
+                <span className="truncate">{p.name}</span>
               </Link>
             </li>
           ))}

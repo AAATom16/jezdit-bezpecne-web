@@ -6,6 +6,8 @@ export type Charity = {
   url: string;
 };
 
+// Smyšlené organizace (testovací verze webu) — jakákoli podobnost s reálnými
+// neziskovkami je čistě náhodná. Částky jsou ilustrativní.
 export const CHARITIES: Charity[] = [
   {
     name: "Bezpečně na silnicích",
@@ -16,24 +18,24 @@ export const CHARITIES: Charity[] = [
     url: "https://example.org/bezpecne",
   },
   {
-    name: "Konto BARIÉRY",
+    name: "Bez Bariér",
     description: "Pomáháme lidem se zdravotním postižením vrátit se za volant.",
     total: 84000,
     color: "charity",
-    url: "https://www.kontobariery.cz",
+    url: "https://example.org/bez-barier",
   },
   {
-    name: "Linka bezpečí",
+    name: "Linka naděje",
     description: "Pomoc dětem a rodinám v krizi, 24/7 telefonická linka zdarma.",
     total: 52000,
     color: "info",
-    url: "https://www.linkabezpeci.cz",
+    url: "https://example.org/linka-nadeje",
   },
   {
-    name: "Pomocné tlapky",
+    name: "Tlapky pomoci",
     description: "Výcvik asistenčních psů pro lidi s postižením.",
     total: 24000,
     color: "warn",
-    url: "https://www.pomocnetlapky.cz",
+    url: "https://example.org/tlapky-pomoci",
   },
 ];

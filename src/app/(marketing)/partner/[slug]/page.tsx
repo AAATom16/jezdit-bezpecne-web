@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/Button";
+import { BrandMark } from "@/components/marketing/BrandMark";
 import {
   CATEGORY_LABEL,
   PARTNERS,
@@ -62,7 +63,13 @@ function FullCard({ partner, card }: { partner: Partner; card: MerchantCard }) {
         <div className="grid gap-6 p-6 sm:p-8 md:grid-cols-[1fr_1fr] md:items-center">
           <div>
             <div className="flex items-center gap-4">
-              <Monogram name={partner.name} />
+              <BrandMark
+                name={partner.name}
+                category={partner.category}
+                accent={partner.accent}
+                size={64}
+                className="shrink-0"
+              />
               <div>
                 <h1 className="text-3xl font-bold tracking-tight">{partner.name}</h1>
                 <span className="mt-1 inline-block rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
@@ -145,7 +152,13 @@ function ComingSoon({ partner }: { partner: Partner }) {
   return (
     <section className="mt-5 rounded-2xl border border-slate-200 bg-white p-8 shadow-soft">
       <div className="flex items-center gap-4">
-        <Monogram name={partner.name} />
+        <BrandMark
+          name={partner.name}
+          category={partner.category}
+          accent={partner.accent}
+          size={64}
+          className="shrink-0"
+        />
         <div>
           <h1 className="text-3xl font-bold tracking-tight">{partner.name}</h1>
           <span className="mt-1 inline-block rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
@@ -185,14 +198,6 @@ function Stat({
       <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</p>
       <p className={`mt-1 font-bold text-slate-900 ${small ? "text-base" : "text-2xl"}`}>{value}</p>
       {sub && <p className="mt-1 text-xs text-slate-500">{sub}</p>}
-    </div>
-  );
-}
-
-function Monogram({ name }: { name: string }) {
-  return (
-    <div className="grid h-16 w-16 shrink-0 place-items-center rounded-xl border border-slate-200 bg-slate-50 text-xl font-extrabold text-slate-700">
-      {name.slice(0, 2)}
     </div>
   );
 }

@@ -11,12 +11,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/hlasujte" },
 };
 
+// Smyšlené značky (testovací verze webu) — jakákoli podobnost s reálnými
+// firmami je čistě náhodná.
 const PROPOSALS = [
-  { name: "Rohlík.cz", votes: 412, category: "Potraviny" },
-  { name: "Globus", votes: 287, category: "Potraviny" },
-  { name: "Datart", votes: 154, category: "Elektronika" },
-  { name: "Hornbach", votes: 138, category: "Hobby" },
-  { name: "Kaufland", votes: 121, category: "Potraviny" },
+  { name: "Rychlokoš", votes: 412, category: "Potraviny" },
+  { name: "Hala Plus", votes: 287, category: "Potraviny" },
+  { name: "Elektroš", votes: 154, category: "Elektronika" },
+  { name: "Kutilov", votes: 138, category: "Hobby" },
+  { name: "Cenoš", votes: 121, category: "Potraviny" },
 ];
 
 export default function HlasujtePage() {

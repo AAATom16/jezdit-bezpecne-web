@@ -51,7 +51,7 @@ export function PhoneMockup() {
         <rect x="32" y="300" width="216" height="64" rx="14" fill="white" stroke="#E2E8F0" />
         <circle cx="60" cy="332" r="14" fill="#E6F6F5" />
         <text x="86" y="328" fill="#0f172a" fontSize="13" fontWeight="600" fontFamily="system-ui">
-          Sleva u Shellu
+          Sleva u PetrolGo
         </text>
         <text x="86" y="346" fill="#64748b" fontSize="11" fontFamily="system-ui">
           −7 % na palivo · platí 7 dní
@@ -66,7 +66,7 @@ export function PhoneMockup() {
           Daruj na charitu
         </text>
         <text x="86" y="422" fill="#64748b" fontSize="11" fontFamily="system-ui">
-          12 Kč → Linka bezpečí
+          12 Kč → Linka naděje
         </text>
 
         <rect x="32" y="466" width="216" height="50" rx="25" fill="#00A79D" />
